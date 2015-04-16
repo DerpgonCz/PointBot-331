@@ -1,5 +1,6 @@
 var version = '0.1.3';
 //
+//
 //Version 0.1.3
 //Added command to change settings
 //Added command to get settings
@@ -94,7 +95,7 @@ function all(data) {
 		case 'set':
 			if (userrole >= settings.setSettingsRole && message.split(' ').length == 4) {
 				//if the setting specified doesn't exist
-				if (settings[message.split](' ')[2] == undefined) {
+				if (settings[message.split(' ')[2]] == undefined) {
 					API.sendChat('[PB] [@' + username + '] Setting ' + settings[message.split](' ')[2] + " doesn't exist.")
 					return;
 				}
@@ -121,7 +122,7 @@ function all(data) {
 		case 'settings':
 			if (userrole >= settings.getSettingsRole) {
 				var name;
-				var settinglist;
+				var settinglist = '';
 				var i = 0;
 				//get all the available settings
 				for (name in settings) {
@@ -141,6 +142,14 @@ function all(data) {
 				}
 			}
 			break;
+		case 'setting':
+			if (userrole >= settings.getSettingsRole) {
+				if (settings[message.split(' ')[2]] == undefined) {
+					API.sendChat('[PB] [@' + username + '] The setting ' + message.split(' ')[2] + " doesn't exist.");
+					return;
+				}
+				API.sendChat('[PB] [@' + username + '] ' + message.split(' ')[2] + ' is set to role ' + roles[settings[message.split(' ')[2]]] + '.');
+			}
 	}
 }
 
