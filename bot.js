@@ -158,14 +158,14 @@ function checkPoints(username) {
 	var i = 0;
 	//get the ID of the target user and assign it to userTargetId
 	while (i < API.getUsers().length) {
-		if(API.getUsers()[i].username == username) {
+		if(API.getUsers()[i].username === username) {
 			userid = API.getUsers()[i].id;
 			i = API.getUsers().length;
 		}
 		i++;
 	}
 	//if the person specified is not yet in the user list
-	if (users[userid] == undefined) {
+	if (users[userid] === undefined) {
 		users[userid] = {'points':0,'username':username};
 	}
 	//get the points of the user
