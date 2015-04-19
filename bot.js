@@ -1,5 +1,8 @@
-var version = '0.1.3';
+var version = '0.1.4';
 //
+//Version 0.1.4
+//Added command to get the role for a setting
+//Moved the command to send a list of settings to its own function
 //
 //Version 0.1.3
 //Added command to change settings
