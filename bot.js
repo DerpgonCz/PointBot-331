@@ -94,52 +94,12 @@ function all(data) {
 			break;
 		case 'set':
 			if (userrole >= settings.setSettingsRole && message.split(' ').length == 4) {
-				//if the setting specified doesn't exist
-				if (settings[message.split(' ')[2]] == undefined) {
-					API.sendChat('[PB] [@' + username + '] Setting ' + settings[message.split](' ')[2] + " doesn't exist.")
-					return;
-				}
-				//replace rank words with their number
-				message = message.replace('gray',0);
-				message = message.replace('grey',0);
-				message = message.replace('user',0);
-				message = message.replace('res','1');
-				message = message.replace('resdj','1');
-				message = message.replace('res-dj','1');
-				message = message.replace('bouncer','2');
-				message = message.replace('manager','3');
-				message = message.replace('cohost','4');
-				message = message.replace('co-host','4');
-				message = message.replace('host','5');
-				//get the new role for the setting
-				var role = parseInt(message.split(' ')[3]);
-				//set the setting
-				settings[message.split(' ')[2]] = role;
-				//respond
-				API.sendChat('[PB] [@' + username + '] Role for ' + message.split(' ')[2] + ' set to ' + role + '.');
+				changeSetting(data);
 			}
 			break;
 		case 'settings':
 			if (userrole >= settings.getSettingsRole) {
-				var name;
-				var settinglist = '';
-				var i = 0;
-				//get all the available settings
-				for (name in settings) {
-					if (i == 0) {
-						settinglist = settinglist + name;
-						i = 1;
-					} else {
-						settinglist = settinglist + ', ' + name;
-					}
-				}
-				//if there is a target user, mention them
-				if(message.split(' ').length == 3) {
-					API.sendChat('[PB] [@' + username + '] [@' + message.split(' ').length[2] + '] Available role settings: ' + settinglist);
-				}
-				else {
-					API.sendChat('[PB] [@' + username + '] Available role settings: ' + settinglist);
-				}
+				sendSettings(message,username);
 			}
 			break;
 		case 'setting':
@@ -151,6 +111,57 @@ function all(data) {
 				API.sendChat('[PB] [@' + username + '] ' + message.split(' ')[2] + ' is set to role ' + roles[settings[message.split(' ')[2]]] + '.');
 			}
 	}
+}
+
+function sendSettings(message,username) {
+	var name;
+	var settinglist = '';
+	var i = 0;
+	//get all the available settings
+	for (name in settings) {
+		if (i == 0) {
+			settinglist = settinglist + name;
+			i = 1;
+		} else {
+			settinglist = settinglist + ', ' + name;
+		}
+	}
+	//if there is a target user, mention them
+	if(message.split(' ').length == 3) {
+		API.sendChat('[PB] [@' + username + '] [@' + message.split(' ').length[2] + '] Available role settings: ' + settinglist);
+	}
+	else {
+		API.sendChat('[PB] [@' + username + '] Available role settings: ' + settinglist);
+	}
+}
+
+function changeSetting(data) {
+	var message = data.message;
+	var username = data.un;
+	//if the setting specified doesn't exist
+	if (settings[message.split(' ')[2]] == undefined) {
+		API.sendChat('[PB] [@' + username + '] Setting ' + settings[message.split](' ')[2] + " doesn't exist.")
+		return;
+	}
+	//replace rank words with their number
+	message = message.replace('gray',0);
+	message = message.replace('grey',0);
+	message = message.replace('user',0);
+	message = message.replace('res','1');
+	message = message.replace('resdj','1');
+	message = message.replace('res-dj','1');
+	message = message.replace('bouncer','2');
+	message = message.replace('manager','3');
+	message = message.replace('cohost','4');
+	message = message.replace('co-host','4');
+	message = message.replace('host','5');
+	//get the new role for the setting
+	var role = parseInt(message.split(' ')[3]);
+	//set the setting
+	settings[message.split(' ')[2]] = role;
+	//respond
+	API.sendChat('[PB] [@' + username + '] Role for ' + message.split(' ')[2] + ' set to ' + role + '.');
+
 }
 
 function checkPoints(username) {
